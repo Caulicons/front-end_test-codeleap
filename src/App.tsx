@@ -1,13 +1,18 @@
 import WrapperContent from './components/WrapperContent';
 import MainScreen from './pages/MainScreen';
-import Signup from './pages/Signup';
+import SignUp from './pages/SignUp';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
-   return <WrapperContent>
-      {/* <Signup /> */}
-      <MainScreen />
-   </WrapperContent>;
+   return <Router>
+      <Routes>
+         <Route path='/' element={<WrapperContent />}>
+            <Route index element={<SignUp />} />
+            <Route path='/posts' element={<MainScreen />} />
+         </Route>
+      </Routes>
+   </Router >;
 }
 
 export default App;

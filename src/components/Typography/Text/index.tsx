@@ -1,10 +1,18 @@
-function Text({ children, className }: React.ComponentProps<'p'>) {
+type textAllowed = 'p' | 'label'
 
-   return <p className={`
+
+interface ITextProps extends React.HTMLProps<HTMLParagraphElement | HTMLLabelElement> {
+   tag?: textAllowed;
+};
+
+function Text({ children, className, tag }: ITextProps) {
+   const Tag = tag ? tag : 'p';
+
+   return <Tag className={`
       ${className}
    `}>
       {children}
-   </p>;
+   </Tag>;
 }
 
 export default Text;  

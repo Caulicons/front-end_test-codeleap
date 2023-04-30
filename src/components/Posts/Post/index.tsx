@@ -3,17 +3,15 @@ import Title from '../../Typography/Title';
 import { ReactComponent as EditIcon } from '../../../assets/editIcon.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/trashIcon.svg';
 import Text from '../../Typography/Text';
-import { useDispatch } from 'react-redux';
-import { deletePost, editPost } from '../../../redux/Slices/selectedPostToEdit';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePostPopUp, editPostPopUp } from '../../../redux/Slices/selectedPostToEdit';
+import { RootState } from '../../../redux/store';
+import { postSelected } from '../../../redux/Slices/posts';
 
 function Post(postData: IPost) {
 
    const dispatch = useDispatch();
-
-   const userInfo = {
-      username: '@Vítor'
-   };
-
+   const userName = useSelector((state: RootState) => state.user.username);
    const formattingDate = (postDate: string): string => {
       const currentTime = Date.now();
       const postTime = new Date(postDate).getTime();
@@ -23,7 +21,9 @@ function Post(postData: IPost) {
       const secondsInHour = 3600;
       const secondsInDay = 86400;
 
-      if (timeDiffInSeconds < secondsInMinute) {
+      if (timeDiffInSeconds < (secondsInMinute / 2)) {
+         return 'posted now';
+      } else if (timeDiffInSeconds < secondsInMinute) {
          return `${timeDiffInSeconds} seconds ago`;
       } else if (timeDiffInSeconds >= secondsInMinute && timeDiffInSeconds < secondsInHour) {
          const timeDiffInMinutes = Math.floor(timeDiffInSeconds / secondsInMinute);
@@ -34,6 +34,16 @@ function Post(postData: IPost) {
       } else {
          return `Posted on ${new Date(postDate).toLocaleDateString('en-GB')}`;
       };
+   };
+
+   const deletePost = () => {
+      dispatch(deletePostPopUp());
+      dispatch(postSelected(postData));
+   };
+
+   const editPost = () => {
+      dispatch(editPostPopUp());
+      dispatch(postSelected(postData));
    };
 
    return <div
@@ -49,10 +59,14 @@ function Post(postData: IPost) {
          <div className='
          flex flex-wrap  w-[90px] break-words pocket:justify-end sm:justify-between
          '>
-            {postData.username === userInfo.username ?
+            {postData.username === userName ?
                <>
-                  <TrashIcon onClick={() => dispatch(deletePost(postData))} className='p-1 hover:stroke-red' fill='blue' width={40} height={40} cursor='pointer' />
-                  <EditIcon onClick={() => dispatch(editPost(postData))} className='p-1 hover:stroke-green' width={40} height={40} cursor='pointer' />
+                  <TrashIcon
+                     onClick={deletePost}
+                     className='p-1 hover:fill-red' fill='blue' width={40} height={40} cursor='pointer' />
+                  <EditIcon
+                     onClick={editPost}
+                     className='p-1 hover:fill-green' width={40} height={40} cursor='pointer' />
                </>
                :
                <></>
@@ -61,7 +75,6 @@ function Post(postData: IPost) {
       </div>
       <div className='flex flex-col gap-[16px] p-default 
       border rounded-b-small border-solid border-borderColor
-      
       '>
          <div className='flex justify-between text-gray'>
             <Text className='font-bold'>{postData.username}</Text>

@@ -20,26 +20,10 @@ const initialState: InitialState = {
    deletingPost: false
 };
 
-type options = {
-   payload?: IPost,
-   type: string,
-
-};
-
 const postOptionsReduce = createSlice({
    name: 'EditingPost',
    initialState,
    reducers: {
-      editPost(state, type: PayloadAction<IPost>) {
-         state.editingPost = !state.editingPost;
-         state.post = type.payload;
-      },
-      deletePost(state, action: PayloadAction<IPost>) {
-         state.deletingPost = !state.deletingPost;
-         state.post = action.payload;
-
-         console.log('post selected to delete', state.post);
-      },
       editPostPopUp(state) {
          state.editingPost = !state.editingPost;
       },
@@ -49,5 +33,5 @@ const postOptionsReduce = createSlice({
    }
 });
 
-export const { editPost, editPostPopUp, deletePost, deletePostPopUp } = postOptionsReduce.actions;
+export const {  editPostPopUp,  deletePostPopUp } = postOptionsReduce.actions;
 export default postOptionsReduce.reducer;

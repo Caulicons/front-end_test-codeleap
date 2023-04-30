@@ -1,13 +1,13 @@
+import { Outlet } from 'react-router-dom';
 
-
-function WrapperContent({children}: React.PropsWithChildren) {
+function WrapperContent() {
 
    return <main className="
-      w-full h-full bg-backgroundColor
+      w-full min-h-screen h-full bg-backgroundColor
       flex items-center justify-center 
       font-Roboto
    ">
-      {children}
+      <Outlet />
    </main>;
 }
 
