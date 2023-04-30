@@ -2,8 +2,7 @@ function Button({ children, className, ...props }: React.ComponentProps<'button'
 
    return <button className={`
       w-[120px] h-[33px]
-      rounded-small
-      justify-center 
+      rounded-small 
       text-base font-bold
       ${className}
    `}

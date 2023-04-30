@@ -1,14 +1,13 @@
 import Button from '../../components/Inputs/Button';
 import TextField from '../../components/Inputs/TextField';
-import Input from '../../components/Inputs/TextField';
 import Box from '../../components/Layout/Box';
 import Text from '../../components/Typography/Text';
 import Title from '../../components/Typography/Title';
 
 function Signup() {
 
-   return <Box className='
-   flex flex-col 
+   return <Box className=' 
+   items-end
    w-[500px]
    '>
       <Title Tag='h2' className='mb-6'>
@@ -18,15 +17,14 @@ function Signup() {
          Please enter your username
       </Text>
       <TextField type='text' placeholder='John Doe' />
-
-      <div className='w-full flex justify-end'>
-         <Button className='
+      <Button className='
          bg-blue text-white
          mt-4
+         justify-self-end
       '>
-            ENTER
-         </Button>
-      </div>
+         ENTER
+      </Button>
+
    </Box>;
 }
 
