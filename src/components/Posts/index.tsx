@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import EditPost from './Post/EditPost';
 import DeletePost from './Post/DeletePost.tsx';
-import { addPosts } from '../../redux/Slices/posts.ts';
+import { addPosts } from '../../redux/Slices/posts';
 
 function Posts() {
 

@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom/client';
-import RouterApp from './router.tsx';
+import RouterApp from './router';
 import './reset.css';
 import './index.css';
-import store from './redux/store.ts';
+import store from './redux/store';
 import { Provider } from 'react-redux';
 import { CookiesProvider } from 'react-cookie';
 
