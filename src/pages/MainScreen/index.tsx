@@ -10,7 +10,7 @@ import NotificationPopUp from '../../components/NotificationPopUp';
 import { hiddenNotification, showNotification } from '../../redux/Slices/notificationsPopUp';
 
 function MainScreen() {
-   const [cookies, _] = useCookies(['userName']);
+   const [cookies,] = useCookies(['userName']);
    const userName = cookies.userName;
    const navigateTo = useNavigate();
    const dispatch = useDispatch();

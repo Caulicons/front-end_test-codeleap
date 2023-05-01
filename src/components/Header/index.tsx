@@ -4,7 +4,7 @@ import { ReactComponent as ExitIcon } from '../../assets/logoutIcon.svg';
 import Title from '../Typography/Title';
 
 const Header = () => {
-   const [_, setCookies] = useCookies(['userName']);
+   const [, setCookies] = useCookies(['userName']);
    const navigateTo = useNavigate();
 
    const logOutUSer = () => {
