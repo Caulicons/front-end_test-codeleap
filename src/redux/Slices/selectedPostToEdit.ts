@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import IPost from '../../interface/Post';
 
 type InitialState = {
@@ -20,7 +19,7 @@ const initialState: InitialState = {
    deletingPost: false
 };
 
-const postOptionsReduce = createSlice({
+const postOptionsReducer = createSlice({
    name: 'EditingPost',
    initialState,
    reducers: {
@@ -33,5 +32,5 @@ const postOptionsReduce = createSlice({
    }
 });
 
-export const {  editPostPopUp,  deletePostPopUp } = postOptionsReduce.actions;
-export default postOptionsReduce.reducer;
+export const {  editPostPopUp,  deletePostPopUp } = postOptionsReducer.actions;
+export default postOptionsReducer.reducer;

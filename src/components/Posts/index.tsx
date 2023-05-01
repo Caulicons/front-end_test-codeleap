@@ -1,25 +1,22 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import IEndPointPosts from '../../interface/EndPointPosts';
-import IPost from '../../interface/Post';
 import Post from './Post';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import EditPost from './Post/EditPost';
 import DeletePost from './Post/DeletePost.tsx';
-import { addPosts, resetPosts } from '../../redux/Slices/posts.ts';
-
+import { addPosts } from '../../redux/Slices/posts.ts';
 
 function Posts() {
 
    const [nextPosts, setNextPosts] = useState<string | null>();
-   const dispatch = useDispatch();
    const posts = useSelector((state: RootState) => state.postsStorage.posts);
-
    const isPostSelect = useSelector((state: RootState) => state.postOption);
+   const dispatch = useDispatch();
 
    useEffect(() => {
-      catchPostsInfo();
+      getPostsInfo();
    }, []);
 
    useEffect(() => {
@@ -28,7 +25,7 @@ function Posts() {
 
       const intersectionObserver = new IntersectionObserver((entries) => {
          if (entries.some((entry) => entry.isIntersecting)) {
-            catchPostsInfo();
+            getPostsInfo();
          }
       });
 
@@ -40,7 +37,7 @@ function Posts() {
    }, [nextPosts]);
 
 
-   const catchPostsInfo = async () => {
+   const getPostsInfo = async () => {
 
       if (nextPosts) {
          axios.get(nextPosts)
@@ -64,13 +61,13 @@ function Posts() {
          .catch(err => console.log(err));
    };
 
-   return <div className='grid gap-6 mt-6'>
+   return <section className='grid gap-6 mt-6'>
       {posts?.map(postData =>
          <Post key={postData.id} {...postData} />
       )}
       {isPostSelect.editingPost ? <EditPost /> : <></>}
       {isPostSelect.deletingPost ? <DeletePost /> : <></>}
-   </div>;
+   </section>;
 }
 
 export default Posts;

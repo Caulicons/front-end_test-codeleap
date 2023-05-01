@@ -6,11 +6,7 @@ import Title from '../../components/Typography/Title';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-
-interface IAlert {
-   infoError: string,
-   isWrong: boolean
-}
+import IAlert from '../../interface/Alert';
 
 function SignUp() {
 
@@ -22,7 +18,6 @@ function SignUp() {
       { infoError: 'It must not have more than fifteen characters.', isWrong: false },
    ]);
    const [cookies, setCookies] = useCookies(['userName']);
-
    const navigateTo = useNavigate();
 
    useEffect(() => {
@@ -35,7 +30,6 @@ function SignUp() {
       evento.preventDefault();
 
       if (!trySubmit) setTrySubmit(true);
-
       const hasSomeError = alertMessage.find(alert => alert.isWrong);
 
       if (!hasSomeError) {
@@ -70,14 +64,14 @@ function SignUp() {
    };
 
    return <Box className=' 
-   items-end
-   w-[500px]
+         items-end
+         w-[500px]
    '>
       <form onSubmit={formSubmitHandle}>
          <Title Tag='h2' className='mb-6'>
             Welcome to CodeLeap network!
          </Title>
-         <Text tag='label' htmlFor="userName" className='mb-2' >
+         <Text as='label' htmlFor="userName" className='mb-2' >
             Please enter your username
          </Text>
          <TextField
@@ -93,10 +87,13 @@ function SignUp() {
             </Text>;
          }) : ''}
 
-         <Button type='submit' className='
-         bg-blue text-white
-         mt-4 
-      '>
+         <Button
+            type='submit'
+            className='
+                bg-blue text-white
+                  mt-4 
+            '
+         >
             ENTER
          </Button>
 

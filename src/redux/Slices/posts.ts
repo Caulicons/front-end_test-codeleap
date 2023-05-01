@@ -9,7 +9,7 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-   posts: [] as IPost[],
+   posts: [],
    postSelected: null
 };
 
@@ -21,6 +21,13 @@ const postsReduce = createSlice({
          state.posts = [action.payload, ...state.posts];
       },
       addPosts(state, action: PayloadAction<IPost[]>) {
+
+         const repeatSomePost = state.posts.filter(post => {
+            return action.payload.some(tryAddPost => tryAddPost.id === post.id);
+         });
+
+         if (repeatSomePost.length > 0) { return; }
+
          state.posts = [...state.posts, ...action.payload];
       },
       editPost(state, action: PayloadAction<IPost>) {
@@ -33,18 +40,14 @@ const postsReduce = createSlice({
       deletePost(state, action: PayloadAction<IPost>) {
          state.posts = state.posts.filter(post => {
             if (post.id === action.payload.id) return;
-
             return post;
          });
       },
       postSelected(state, action: PayloadAction<IPost>) {
          state.postSelected = action.payload;
-      },
-      resetPosts(state) {
-         state.posts = [];
-      },
+      }
    }
 });
 
-export const { addPosts, addPost, deletePost, editPost, postSelected, resetPosts } = postsReduce.actions;
+export const { addPosts, addPost, deletePost, editPost, postSelected } = postsReduce.actions;
 export default postsReduce.reducer;

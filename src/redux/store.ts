@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import postOptionsReduce from './Slices/selectedPostToEdit';
-import userReducer from './Slices/user';
-import postsReducer from './Slices/posts';
+import {
+   notificationReducer,
+   postOptionsReducer,
+   postsReducer,
+   userReducer
+} from './Slices';
+
 
 const store = configureStore({
    reducer: {
-      postOption: postOptionsReduce,
+      postOption: postOptionsReducer,
       user: userReducer,
-      postsStorage: postsReducer 
+      postsStorage: postsReducer,
+      notification: notificationReducer
    }
 });
 

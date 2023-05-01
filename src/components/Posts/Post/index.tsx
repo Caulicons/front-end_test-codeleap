@@ -46,15 +46,17 @@ function Post(postData: IPost) {
       dispatch(postSelected(postData));
    };
 
-   return <div
+   return <article
       className="
          h-auto min-w-fit max-w-[752px] 
       "
       id='post'
    >
-      <div className='
-        flex justify-between p-default bg-blue text-white rounded-t-default
-      '>
+      <div
+         className='
+            flex justify-between p-default bg-blue text-white rounded-t-default
+         '
+      >
          <Title className='break-all' Tag='h3'>{postData.title}</Title>
          <div className='
          flex flex-wrap  w-[90px] break-words pocket:justify-end sm:justify-between
@@ -73,18 +75,21 @@ function Post(postData: IPost) {
             }
          </div>
       </div>
-      <div className='flex flex-col gap-[16px] p-default 
+      <div className='flex break-words flex-col gap-[16px] p-default 
       border rounded-b-small border-solid border-borderColor
       '>
          <div className='flex justify-between text-gray'>
             <Text className='font-bold'>{postData.username}</Text>
             <Text>{formattingDate(postData.created_datetime)}</Text>
          </div>
-         <Text className='break-words leading-[21px] text-[18px]'>
+         <Text className='break-words leading-[21px] text-[18px]
+            break-anywhere
+               '
+         >
             {postData.content}
          </Text>
       </div>
-   </div>;
+   </article>;
 }
 
 export default Post;

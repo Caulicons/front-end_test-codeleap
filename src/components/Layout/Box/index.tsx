@@ -1,5 +1,3 @@
-
-
 function Box({ children, className }: React.ComponentProps<'div'>) {
 
    return <div className={`

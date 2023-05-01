@@ -59,7 +59,7 @@ export default {
             transparent: 'transparent',
             borderColor: '#999999',
             backgroundColor: '#DDDDDD'
-         }
+         },
       },
    },
    plugins: [],

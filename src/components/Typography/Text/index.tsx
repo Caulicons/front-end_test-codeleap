@@ -1,14 +1,12 @@
 type textAllowed = 'p' | 'label'
-
-
 interface ITextProps extends React.HTMLProps<HTMLParagraphElement | HTMLLabelElement> {
-   tag?: textAllowed;
+   as?: textAllowed;
 };
 
-function Text({ children, className, tag }: ITextProps) {
-   const Tag = tag ? tag : 'p';
+function Text({ children, className, as }: ITextProps) {
+   const Tag = as ? as : 'p';
 
-   return <Tag className={`
+   return <Tag className={` break-words
       ${className}
    `}>
       {children}

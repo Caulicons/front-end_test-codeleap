@@ -7,7 +7,7 @@ import axios from 'axios';
 import { RootState } from '../../../../redux/store';
 import { deletePost as deletePostInStore } from '../../../../redux/Slices/posts';
 import IPost from '../../../../interface/Post';
-
+import { hiddenNotification, showNotification } from '../../../../redux/Slices/notificationsPopUp';
 
 function DeletePost() {
    const postToDelete = useSelector((state: RootState) => state.postsStorage.postSelected) as IPost;
@@ -17,14 +17,19 @@ function DeletePost() {
 
       axios.delete(`https://dev.codeleap.co.uk/careers/${postToDelete?.id}/`)
          .then(res => {
-            console.log(res);
             if (res.status === 204) {
 
                dispatch(deletePostPopUp());
                dispatch(deletePostInStore(postToDelete));
+               dispatch(showNotification({ text: 'Post deleted successfully!', type: 'success' }));
+               setTimeout(() => dispatch(hiddenNotification()), 3000);
             }
          })
-         .catch(err => { console.log(err); });
+         .catch(err => {
+            console.log(err);
+            dispatch(showNotification({ text: 'Unable to deleted post. Try again later.', type: 'failed' }));
+            setTimeout(() => dispatch(hiddenNotification()), 3000);
+         });
    };
 
    return <div className="

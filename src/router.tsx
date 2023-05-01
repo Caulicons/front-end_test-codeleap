@@ -3,7 +3,7 @@ import MainScreen from './pages/MainScreen';
 import SignUp from './pages/SignUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
+function RouterApp() {
 
    return <Router>
       <Routes>
@@ -15,4 +15,4 @@ function App() {
    </Router >;
 }
 
-export default App;
+export default RouterApp;

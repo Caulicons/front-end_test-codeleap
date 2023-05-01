@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
+import RouterApp from './router.tsx';
 import './reset.css';
 import './index.css';
 import store from './redux/store.ts';
@@ -10,7 +10,7 @@ import { CookiesProvider } from 'react-cookie';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
    <Provider store={store}>
       <CookiesProvider>
-         <App />
+         <RouterApp />
       </CookiesProvider>
    </Provider>
 );
