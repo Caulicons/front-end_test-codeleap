@@ -1,6 +1,6 @@
 import WrapperContent from './components/WrapperContent';
 import MainScreen from './pages/MainScreen';
-import SignUp from './pages/SignUp';
+import SignUp from './pages/SignUp/SignUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function RouterApp() {
