@@ -89,6 +89,7 @@ const PostForm = ({ whatToDO, CustomButton: CustomButton }: IProps) => {
             });
          setTitle('');
          setContent('');
+         setContentLength(0);
       }
    };
 
