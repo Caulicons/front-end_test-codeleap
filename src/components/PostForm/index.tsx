@@ -87,10 +87,20 @@ const PostForm = ({ whatToDO, CustomButton: CustomButton }: IProps) => {
                dispatch(showNotification({ text: 'Unable to created post. Try again later.', type: 'failed' }));
                setTimeout(() => dispatch(hiddenNotification()), 1500);
             });
-         setTitle('');
-         setContent('');
-         setContentLength(0);
+         afterSubmit();
       }
+   };
+
+   const afterSubmit = () => {
+      setTitle('');
+      setContent('');
+      setContentLength(0);
+      setTrySubmit(false);
+      setAlertMessage(alerts => alerts.map(alert => {
+         if (alert.type != 'isEmpty') return alert;
+
+         return { ...alert, isWrong: true };
+      }));
    };
 
    const formChangeHandle = (evento: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

@@ -8,12 +8,21 @@ import { RootState } from '../../../../redux/store';
 import { deletePost as deletePostInStore } from '../../../../redux/Slices/posts';
 import IPost from '../../../../interface/Post';
 import { hiddenNotification, showNotification } from '../../../../redux/Slices/notificationsPopUp';
+import { useState } from 'react';
 
 function DeletePost() {
    const postToDelete = useSelector((state: RootState) => state.postsStorage.postSelected) as IPost;
+   const [delayClicked, setDelayClicked] = useState<boolean>(false);
    const dispatch = useDispatch();
 
+   const handleDelayClicked = () => {
+      setDelayClicked(true);
+      setTimeout(() => setDelayClicked, 700);
+   };
+
    const deletePost = () => {
+
+      handleDelayClicked();
 
       axios.delete(`https://dev.codeleap.co.uk/careers/${postToDelete?.id}/`)
          .then(res => {
@@ -47,6 +56,7 @@ function DeletePost() {
             <Button
                className='bg-red hover:bg-redHover duration-500 text-white'
                onClick={deletePost}
+               disabled={delayClicked}
             >Delete</Button>
          </div>
       </Box>
