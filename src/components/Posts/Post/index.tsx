@@ -3,15 +3,16 @@ import Title from '../../Typography/Title';
 import { ReactComponent as EditIcon } from '../../../assets/editIcon.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/trashIcon.svg';
 import Text from '../../Typography/Text';
-import { useDispatch, useSelector } from 'react-redux';
-import { deletePostPopUp, editPostPopUp } from '../../../redux/Slices/selectedPostToEdit';
 import { RootState } from '../../../redux/store';
-import { postSelected } from '../../../redux/Slices/posts';
+import { useSelector } from 'react-redux';
+import usePostOptionsPopUp from '../../../actions/hooks/handlePostOptionsPopUp';
 
 function Post(postData: IPost) {
 
-   const dispatch = useDispatch();
-   const userName = useSelector((state: RootState) => state.user.username);
+   const editPostPopUp = usePostOptionsPopUp('editPost');
+   const deletePostPopUp = usePostOptionsPopUp('deletePost');
+   const userNameLogged = useSelector((state: RootState) => state.user.username);
+
    const formattingDate = (postDate: string): string => {
       const currentTime = Date.now();
       const postTime = new Date(postDate).getTime();
@@ -36,19 +37,9 @@ function Post(postData: IPost) {
       };
    };
 
-   const deletePost = () => {
-      dispatch(deletePostPopUp());
-      dispatch(postSelected(postData));
-   };
-
-   const editPost = () => {
-      dispatch(editPostPopUp());
-      dispatch(postSelected(postData));
-   };
-
    return <article
       className="
-         h-auto min-w-fit max-w-[752px] 
+         h-auto min-w-fit max-w-[752px]
       "
       id='post'
    >
@@ -61,13 +52,13 @@ function Post(postData: IPost) {
          <div className='
          flex flex-wrap  w-[90px] break-words pocket:justify-end sm:justify-between
          '>
-            {postData.username === userName ?
+            {postData.username === userNameLogged ?
                <>
                   <TrashIcon
-                     onClick={deletePost}
+                     onClick={() => deletePostPopUp(postData)}
                      className='p-1 hover:fill-red' fill='blue' width={40} height={40} cursor='pointer' />
                   <EditIcon
-                     onClick={editPost}
+                     onClick={() => editPostPopUp(postData)}
                      className='p-1 hover:fill-green' width={40} height={40} cursor='pointer' />
                </>
                :

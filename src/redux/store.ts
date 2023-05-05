@@ -6,7 +6,6 @@ import {
    userReducer
 } from './Slices';
 
-
 const store = configureStore({
    reducer: {
       postOption: postOptionsReducer,

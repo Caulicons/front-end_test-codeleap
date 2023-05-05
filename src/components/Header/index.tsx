@@ -1,16 +1,10 @@
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import { ReactComponent as ExitIcon } from '../../assets/logoutIcon.svg';
 import Title from '../Typography/Title';
+import useLogoutUser from '../../actions/hooks/logOutUser';
 
 const Header = () => {
-   const [, setCookies] = useCookies(['userName']);
-   const navigateTo = useNavigate();
 
-   const logOutUSer = () => {
-      setCookies('userName', '', { path: '/' });
-      navigateTo('/');
-   };
+   const logOutUser = useLogoutUser();
 
    return (
       <div className='flex justify-between text-white bg-blue py-[27px] px-[37px]'>
@@ -19,7 +13,7 @@ const Header = () => {
          </Title>
          <ExitIcon
             cursor='pointer' width={'40px'} height={'40px'} className='fill-white'
-            onClick={logOutUSer}
+            onClick={() => logOutUser()}
          />
       </div>
    );

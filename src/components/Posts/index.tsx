@@ -1,31 +1,29 @@
-import { useEffect, useState } from 'react';
-import IEndPointPosts from '../../interface/EndPointPosts';
+import { useEffect } from 'react';
 import Post from './Post';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import EditPost from './Post/EditPost';
 import DeletePost from './Post/DeletePost.tsx';
-import { addPosts } from '../../redux/Slices/posts';
+import useGetPosts from '../../actions/httpRequestsHooks/getPosts.ts';
 
 function Posts() {
 
-   const [nextPosts, setNextPosts] = useState<string | null>();
-   const posts = useSelector((state: RootState) => state.postsStorage.posts);
+   const getPostInfo = useGetPosts();
    const isPostSelect = useSelector((state: RootState) => state.postOption);
-   const dispatch = useDispatch();
-
-   useEffect(() => {
-      getPostsInfo();
-   }, []);
+   const posts = useSelector((state: RootState) => state.postsStorage.posts);
+   const nextPostStore = useSelector((state: RootState) => state.postsStorage.nextPostURL);
 
    useEffect(() => {
 
-      if (!nextPosts) return;
+      if (!nextPostStore) {
+         getPostInfo();
+         return;
+      };
 
       const intersectionObserver = new IntersectionObserver((entries) => {
          if (entries.some((entry) => entry.isIntersecting)) {
-            getPostsInfo();
+            getPostInfo(nextPostStore);
+            return;
          }
       });
 
@@ -34,32 +32,8 @@ function Posts() {
 
       intersectionObserver.observe(lastPost);
       return () => intersectionObserver.disconnect();
-   }, [nextPosts]);
+   }, [nextPostStore]);
 
-
-   const getPostsInfo = async () => {
-
-      if (nextPosts) {
-         axios.get(nextPosts)
-            .then(res => res.data)
-            .then(res => {
-               const response = res as IEndPointPosts;
-               setNextPosts(response.next);
-               dispatch(addPosts(response.results));
-            })
-            .catch(err => console.log(err));
-         return;
-      }
-
-      axios.get('https://dev.codeleap.co.uk/careers/')
-         .then(res => res.data)
-         .then(res => {
-            const response = res as IEndPointPosts;
-            setNextPosts(response.next);
-            dispatch(addPosts(response.results));
-         })
-         .catch(err => console.log(err));
-   };
 
    return <section className='grid gap-6 mt-6'>
       {posts?.map(postData =>

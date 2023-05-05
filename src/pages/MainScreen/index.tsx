@@ -1,27 +1,20 @@
-import CreatePoster from '../../components/CreaterPoster';
+import CreatePoster from '../../components/CreatePoster';
 import Posts from '../../components/Posts';
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { addUser } from '../../redux/Slices/user';
 import Header from '../../components/Header';
 import NotificationPopUp from '../../components/NotificationPopUp';
-import { hiddenNotification, showNotification } from '../../redux/Slices/notificationsPopUp';
+import { useNotificationWelcome } from '../../actions/hooks/showNotification';
+import useVerifyUserRegister from '../../actions/hooks/verifyUserRegister';
 
 function MainScreen() {
-   const [cookies,] = useCookies(['userName']);
-   const userName = cookies.userName;
-   const navigateTo = useNavigate();
-   const dispatch = useDispatch();
 
-   dispatch(addUser(userName));
-   dispatch(showNotification({ text: '', type: 'welcome' }));
-   setTimeout(() => dispatch(hiddenNotification()), 1400);
+   const showWelcomeNotification = useNotificationWelcome();
+   const verifyUserRegister = useVerifyUserRegister();
 
    useEffect(() => {
-      if (!cookies.userName) return navigateTo('/');
-   }, [cookies]);
+      verifyUserRegister();
+      showWelcomeNotification();
+   }, []);
 
    return <div className='
    h-full w-[800px]

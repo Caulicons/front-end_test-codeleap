@@ -19,8 +19,8 @@ const initialState: InitialState = {
    deletingPost: false
 };
 
-const postOptionsReducer = createSlice({
-   name: 'EditingPost',
+const handlePostOptionsSlice = createSlice({
+   name: 'handlePost',
    initialState,
    reducers: {
       editPostPopUp(state) {
@@ -32,5 +32,5 @@ const postOptionsReducer = createSlice({
    }
 });
 
-export const {  editPostPopUp,  deletePostPopUp } = postOptionsReducer.actions;
-export default postOptionsReducer.reducer;
+export const {  editPostPopUp,  deletePostPopUp } = handlePostOptionsSlice.actions;
+export default handlePostOptionsSlice.reducer;

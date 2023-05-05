@@ -17,7 +17,7 @@ const initialState: InitialState = {
    isActive: true
 };
 
-const notificationReducer = createSlice({
+const notificationSlice = createSlice({
    name: 'username',
    initialState,
    reducers: {
@@ -32,5 +32,5 @@ const notificationReducer = createSlice({
    }
 });
 
-export const { showNotification, hiddenNotification } = notificationReducer.actions;
-export default notificationReducer.reducer;
+export const { showNotification, hiddenNotification } = notificationSlice.actions;
+export default notificationSlice.reducer;
