@@ -47,7 +47,7 @@ function SignUp() {
             <TextField
                maxLength={22}
                placeholder="John Doe"
-               className='mb-4'
+               className="mb-4"
                {...register('userNameInput', {
                   minLength: {
                      value: 4,

@@ -15,15 +15,13 @@ This is a page I created for the selective process at Codeleap.
 
 <img width=100% src="./src/assets/demo.gif">
 
-## See deploy. 
-
+## See deploy.
 
 ## Running.
 
 -  Run `yarn` or `npm i` in the folder that containing the `package.json` file to restore the packages.
 
--  Run `yarn dev`  or `npm dev` and then go to the browser at [http://localhost:5173/](http://localhost:5173/) to view the page.
-
+-  Run `yarn dev` or `npm dev` and then go to the browser at [http://localhost:5173/](http://localhost:5173/) to view the page.
 
 ### Credits
 

@@ -3,7 +3,7 @@ import React from 'react';
 const TextField = React.forwardRef<
    HTMLInputElement,
    React.ComponentProps<'input'> & { className?: string }
->(({ children, className, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
    return (
       <input
          ref={ref}
