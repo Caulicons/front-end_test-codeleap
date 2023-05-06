@@ -1,6 +1,6 @@
 interface newPost {
-   title: string
-   content: string
+   title: string;
+   content: string;
 }
 
 export default newPost;

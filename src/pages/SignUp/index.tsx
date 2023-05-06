@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useVerifyUserRegister from '../../actions/hooks/verifyUserRegister';
 import useRegisterUser from '../../actions/hooks/registerUser';
+import TextField from '../../components/Inputs/TextField';
 
 function SignUp() {
    const {
@@ -34,7 +35,7 @@ function SignUp() {
          className=" 
          w-[500px]
          items-end
-   "
+      "
       >
          <form onSubmit={handleSubmit(onSubmit)}>
             <Title Tag="h2" className="mb-6">
@@ -43,12 +44,10 @@ function SignUp() {
             <Text as="label" htmlFor="userName" className="mb-2">
                Please enter your username
             </Text>
-            <input
+            <TextField
                maxLength={22}
                placeholder="John Doe"
-               className="mb-6 w-full 
-               rounded-small border border-solid border-borderColor 
-               px-[11px] py-[8px]"
+               className="mb-4"
                {...register('userNameInput', {
                   minLength: {
                      value: 4,

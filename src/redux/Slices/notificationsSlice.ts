@@ -1,20 +1,19 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 type NotificationTypes = {
-   type: 'welcome' | 'failed' | 'success' | '',
-   text: string
-}
+   type: 'welcome' | 'failed' | 'success' | '';
+   text: string;
+};
 
 interface InitialState extends NotificationTypes {
-   isActive: boolean,
-};
+   isActive: boolean;
+}
 
 const initialState: InitialState = {
    type: '',
    text: '',
-   isActive: true
+   isActive: true,
 };
 
 const notificationSlice = createSlice({
@@ -29,8 +28,9 @@ const notificationSlice = createSlice({
       hiddenNotification(state) {
          state.isActive = false;
       },
-   }
+   },
 });
 
-export const { showNotification, hiddenNotification } = notificationSlice.actions;
+export const { showNotification, hiddenNotification } =
+   notificationSlice.actions;
 export default notificationSlice.reducer;

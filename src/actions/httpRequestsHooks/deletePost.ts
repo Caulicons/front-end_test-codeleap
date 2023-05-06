@@ -9,25 +9,31 @@ import codeleapHTTP from '../../http/index.ts';
 const useDeletePost = () => {
    const dispatch = useDispatch();
    const showNotification = useShowNotification();
-   const postToDelete = useSelector((state: RootState) => state.postsStorage.postSelected) as IPost;
+   const postToDelete = useSelector(
+      (state: RootState) => state.postsStorage.postSelected
+   ) as IPost;
 
    return async () => {
-
-      return codeleapHTTP.delete(`${postToDelete?.id}/`)
-         .then(res => {
+      return codeleapHTTP
+         .delete(`${postToDelete?.id}/`)
+         .then((res) => {
             if (res.status === 204) {
-
                dispatch(deletePostPopUp());
                dispatch(deletePostInStore(postToDelete));
-               showNotification({ text: 'Post deleted successfully!', type: 'success' });
+               showNotification({
+                  text: 'Post deleted successfully!',
+                  type: 'success',
+               });
             }
          })
-         .catch(err => {
+         .catch((err) => {
             console.log(err);
-            showNotification({ text: 'Unable to deleted post. Try again later.', type: 'failed' });
+            showNotification({
+               text: 'Unable to deleted post. Try again later.',
+               type: 'failed',
+            });
          });
-   };;
-   ;
-};;
+   };
+};
 
 export default useDeletePost;

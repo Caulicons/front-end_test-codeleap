@@ -28,7 +28,7 @@ const NotificationPopUp = () => {
       <>
          <span
             className={`
-               ${infoToShow.isActive ? ' right-0' : 'right-[-300px]'}
+               ${infoToShow.isActive ? ' right-0' : 'right-[-400px]'}
             fixed top-[102px] h-auto w-auto  rounded-l-default
            p-default pr-2 text-white duration-500
            ${handleNotification[infoToShow.type].style}

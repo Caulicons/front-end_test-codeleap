@@ -4,6 +4,7 @@ import Button from '../Inputs/Button';
 import useCreatePost from '../../actions/httpRequestsHooks/createPost';
 import useEditPost from '../../actions/httpRequestsHooks/editPost';
 import { useForm } from 'react-hook-form';
+import TextField from '../Inputs/TextField';
 
 interface IProps {
    whatToDO: 'edit' | 'create';
@@ -51,10 +52,8 @@ const PostForm = ({ whatToDO, CustomButton: CustomButton }: IProps) => {
          <Text as="label" className="mb-2">
             Title
          </Text>
-         <input
-            className="mb-6 w-full 
-            rounded-small border border-solid border-borderColor 
-            px-[11px] py-[8px]"
+         <TextField
+            className="mb-6"
             placeholder="Hello world"
             maxLength={51}
             {...register('postTitle', {

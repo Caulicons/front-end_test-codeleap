@@ -4,15 +4,16 @@ import SignUp from './pages/SignUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function RouterApp() {
-
-   return <Router>
-      <Routes>
-         <Route path='/' element={<WrapperContent />}>
-            <Route index element={<SignUp />} />
-            <Route path='/posts' element={<MainScreen />} />
-         </Route>
-      </Routes>
-   </Router >;
+   return (
+      <Router>
+         <Routes>
+            <Route path="/" element={<WrapperContent />}>
+               <Route index element={<SignUp />} />
+               <Route path="/posts" element={<MainScreen />} />
+            </Route>
+         </Routes>
+      </Router>
+   );
 }
 
 export default RouterApp;
