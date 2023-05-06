@@ -1,170 +1,125 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import Text from '../Typography/Text';
-import TextField from '../Inputs/TextField';
 import Button from '../Inputs/Button';
-import IAlert from '../../interface/Alert';
 import useCreatePost from '../../actions/httpRequestsHooks/createPost';
 import useEditPost from '../../actions/httpRequestsHooks/editPost';
+import { useForm } from 'react-hook-form';
 
 interface IProps {
-   whatToDO: 'edit' | 'create',
+   whatToDO: 'edit' | 'create';
    CustomButton?: ReactNode;
-};
-
-const customAlertMessage = [
-   { field: 'postTitle', type: 'isEmpty', infoError: 'It must not be empty.', isWrong: true },
-   { field: 'postTitle', type: 'isFull', infoError: 'It must not have more than eighty characters.', isWrong: false },
-   { field: 'postContent', type: 'isEmpty', infoError: 'It must not be empty.', isWrong: true },
-   { field: 'postContent', type: 'isFull', infoError: 'It must not have more than 280 characters.', isWrong: false },
-];
+}
 
 const PostForm = ({ whatToDO, CustomButton: CustomButton }: IProps) => {
-
+   const {
+      handleSubmit,
+      register,
+      formState: { errors },
+      getValues,
+      watch,
+      resetField,
+   } = useForm({
+      defaultValues: {
+         postTitle: '',
+         postContent: '',
+      },
+   });
    const editPost = useEditPost();
    const createPost = useCreatePost();
-   const [title, setTitle] = useState<string>('');
-   const [content, setContent] = useState<string>('');
-   const [trySubmit, setTrySubmit] = useState<boolean>();
-   const [contentLength, setContentLength] = useState<number>(0);
-   const [alertMessage, setAlertMessage] = useState<Array<IAlert>>(customAlertMessage);
+   const contentLength = watch('postContent').length;
 
-   const formSubmitHandle = (evento: React.FormEvent<HTMLFormElement>) => {
-
-      evento.preventDefault();
-
-      if (!trySubmit) setTrySubmit(true);
-
-      const hasSomeError = alertMessage.find(alert => alert.isWrong);
-
-      if (!hasSomeError) {
-
-         if (whatToDO === 'edit') {
-
-            editPost({ title, content });
-
-         };
-
-         if (whatToDO === 'create') {
-
-            createPost({ title, content });
-         };
-
-         setTitle('');
-         setContent('');
-         setContentLength(0);
-      }
-   };
-
-   const formChangeHandle = (evento: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const field = evento.target.name;
-
-      if (field === 'postTitle') {
-         setTitle(evento.target.value);
-      }
-
-      if (field === 'postContent') {
-         setContentLength(evento.target.value.length);
-         setContent(evento.target.value);
-      }
-
-      handleErros(evento.target);
-   };
-
-   const handleErros = (input: EventTarget & (HTMLInputElement | HTMLTextAreaElement)) => {
-
-      const erros = {
-         isEmpty: false,
-         isFull: false,
+   const onSubmit = () => {
+      const newPost = {
+         title: getValues('postTitle'),
+         content: getValues('postContent'),
       };
 
-      if (input.value.length === 0) erros.isEmpty = true;
-      if (input.name === 'postTitle' && input.value.length > 80) { erros.isFull = true; };
-      if (input.name === 'postContent' && input.value.length > 280) { erros.isFull = true; };
+      if (whatToDO === 'edit') {
+         editPost(newPost);
+      }
 
-      setAlertMessage(alerts => alerts.map(alert => {
+      if (whatToDO === 'create') {
+         createPost(newPost);
+      }
 
-         if (!(alert.field === input.name)) return alert;
-
-         if (alert.type === 'isEmpty') return { ...alert, isWrong: erros.isEmpty };
-         if (alert.type === 'isFull') return { ...alert, isWrong: erros.isFull };
-         return alert;
-      }));
+      resetField('postContent');
+      resetField('postTitle');
    };
 
-   return (<form className='grid h-auto' onSubmit={formSubmitHandle}>
-      <Text htmlFor='postTitle' as='label' className='mb-2'>
-         Title
-      </Text>
-      <TextField
-         type='text'
-         name='postTitle'
-         id='postTitle'
-         placeholder='Hello world'
-         className='mb-6'
-         value={title}
-         maxLength={81}
-         onChange={formChangeHandle}
-      />
-      {trySubmit ?
-         alertMessage.map((alert, i) => {
-            if (alert?.field === 'postContent' || !alert.isWrong) return;
-
-            return <Text
-               key={i}
-               role='alert'
-               className={'font-light duration-500 relative top-[-15px]'}
-            >
-               {'❌ ' + alert.infoError}
-            </Text>;
-         }) : ''}
-      <Text
-         as='label'
-         htmlFor='postContent'
-         className='mb-2'
-      >
-         Content
-      </Text>
-      <textarea
-         maxLength={281}
-         placeholder='Content here'
-         name="postContent"
-         className="
-            w-full p-12
-            border border-solid border-borderColor rounded-small 
-            py-[8px] px-[11px] min-h-[81px] h-full mb-6
+   return (
+      <form className="grid h-auto" onSubmit={handleSubmit(onSubmit)}>
+         <Text as="label" className="mb-2">
+            Title
+         </Text>
+         <input
+            className="mb-6 w-full 
+            rounded-small border border-solid border-borderColor 
+            px-[11px] py-[8px]"
+            placeholder="Hello world"
+            maxLength={51}
+            {...register('postTitle', {
+               required: '❌ It must not be empty.',
+               maxLength: {
+                  value: 72,
+                  message: '❌ It must not have more than 72 characters.',
+               },
+            })}
+         />
+         <Text
+            role="alert"
+            className={'relative top-[-15px] font-light duration-500'}
+         >
+            {errors.postTitle?.message}
+         </Text>
+         <Text as="label" className="mb-2">
+            Content
+         </Text>
+         <textarea
+            className="
+            mb-6 h-full
+            min-h-[81px] w-full rounded-small border 
+            border-solid border-borderColor p-12 px-[11px] py-[8px]
          "
-         value={content}
-         onChange={formChangeHandle}
-      ></textarea>
-      <div
-         className={`
-         flex justify-end font-extralight mr-4 
-         relative top-[-21px] text-gray text-[12px] 
+            maxLength={281}
+            placeholder="Content here"
+            {...register('postContent', {
+               required: '❌ It must not be empty.',
+               maxLength: {
+                  value: 280,
+                  message: '❌ It must not have more than 280 characters.',
+               },
+            })}
+         ></textarea>
+         <span
+            className={`
+         relative top-[-21px] mr-4 flex 
+         justify-end text-[12px] font-extralight text-gray 
          ${contentLength >= 280 ? 'text-red' : ''}
          `}
-      >
-         {contentLength}
-      </div>
-      {trySubmit ?
-         alertMessage.map((alert, i) => {
-            if (alert?.field === 'postTitle' || !alert.isWrong) return;
-
-            return <Text key={i} role='alert'
-               className={'font-light mt-2 duration-500 relative top-[-15px]'}>
-               {'❌ ' + alert.infoError}
-            </Text>;
-         }) : ''}
-      {CustomButton ? CustomButton
-         : <Button
-            className='
-            justify-self-end mt-4
-            bg-blue text-white
-            hover:bg-blueHover duration-500
-         '
          >
-            CREATE
-         </Button>}
-   </form>);
+            {contentLength}
+         </span>
+         <Text
+            role="alert"
+            className={'relative top-[-15px] font-light duration-500'}
+         >
+            {errors.postContent?.message}
+         </Text>
+         {CustomButton ? (
+            CustomButton
+         ) : (
+            <Button
+               className="
+            mt-4 justify-self-end
+            bg-blue text-white
+            duration-500 hover:bg-blueHover
+         "
+            >
+               CREATE
+            </Button>
+         )}
+      </form>
+   );
 };
 
 export default PostForm;

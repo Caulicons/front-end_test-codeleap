@@ -1,24 +1,23 @@
 import Button from '../../components/Inputs/Button';
-import TextField from '../../components/Inputs/TextField';
 import Box from '../../components/Layout/Box';
 import Text from '../../components/Typography/Text';
 import Title from '../../components/Typography/Title';
-import { useState, useEffect } from 'react';
-import IAlert from '../../interface/Alert';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import useVerifyUserRegister from '../../actions/hooks/verifyUserRegister';
 import useRegisterUser from '../../actions/hooks/registerUser';
 
-const customAlertMessage = [
-   { infoError: 'It must not be empty.', isWrong: true },
-   { infoError: 'It must not have less than four characters. ', isWrong: true },
-   { infoError: 'It must not have more than fifteen characters.', isWrong: false },
-];
-
 function SignUp() {
-
-   const [userName, setUserName] = useState<string>('');
-   const [trySubmit, setTrySubmit] = useState<boolean>();
-   const [alertMessage, setAlertMessage] = useState<Array<IAlert>>(customAlertMessage);
+   const {
+      handleSubmit,
+      register,
+      formState: { errors },
+      getValues,
+   } = useForm({
+      defaultValues: {
+         userNameInput: '',
+      },
+   });
    const verifyUseRegister = useVerifyUserRegister();
    const registerUser = useRegisterUser();
 
@@ -26,79 +25,62 @@ function SignUp() {
       verifyUseRegister('/posts');
    }, []);
 
-   const formSubmitHandle = (evento: React.FormEvent<HTMLFormElement>) => {
-      evento.preventDefault();
-
-      if (!trySubmit) setTrySubmit(true);
-
-      const hasSomeError = alertMessage.find(alert => alert.isWrong);
-
-      if (!hasSomeError) {
-         registerUser(userName);
-      }
+   const onSubmit = () => {
+      registerUser(getValues('userNameInput'));
    };
 
-   const formChangeHandle = (evento: string) => {
-
-      setUserName(evento);
-      handleErros(evento);
-   };
-
-   const handleErros = (input: string) => {
-
-      const error = {
-         isEmpty: false,
-         isMoreFifTeen: false,
-         isLessFour: false
-      };
-
-      if (input.length === 0) error.isEmpty = true;
-      if (input.length < 4) error.isLessFour = true;
-      if (input.length > 15) error.isMoreFifTeen = true;
-
-      setAlertMessage(alert => [
-         alert[0] = { ...alert[0], isWrong: error.isEmpty },
-         alert[1] = { ...alert[1], isWrong: error.isLessFour },
-         alert[2] = { ...alert[2], isWrong: error.isMoreFifTeen }
-      ]);
-   };
-
-   return <Box className=' 
-         items-end
+   return (
+      <Box
+         className=" 
          w-[500px]
-   '>
-      <form onSubmit={formSubmitHandle}>
-         <Title Tag='h2' className='mb-6'>
-            Welcome to CodeLeap network!
-         </Title>
-         <Text as='label' htmlFor="userName" className='mb-2' >
-            Please enter your username
-         </Text>
-         <TextField
-            id='userName' name="userName" value={userName} onChange={e => formChangeHandle(e.target.value)}
-            type='text' placeholder='John Doe'
-         />
-         {trySubmit ? alertMessage.map((alert, i) => {
-            return <Text key={i} role='alert'
+         items-end
+   "
+      >
+         <form onSubmit={handleSubmit(onSubmit)}>
+            <Title Tag="h2" className="mb-6">
+               Welcome to CodeLeap network!
+            </Title>
+            <Text as="label" htmlFor="userName" className="mb-2">
+               Please enter your username
+            </Text>
+            <input
+               maxLength={22}
+               placeholder="John Doe"
+               className="mb-6 w-full 
+               rounded-small border border-solid border-borderColor 
+               px-[11px] py-[8px]"
+               {...register('userNameInput', {
+                  minLength: {
+                     value: 4,
+                     message: '❌ It must not have less than four characters.',
+                  },
+                  maxLength: {
+                     value: 21,
+                     message: '❌ It must not have more than 21 characters.',
+                  },
+                  required: '❌ It must not be empty.',
+               })}
+            />
+            <Text
+               role="alert"
                className={`
-               font-light mt-2 duration-500
-               `}>
-               {alert.isWrong ? '❌ ' + alert.infoError : '👍 ' + alert.infoError}
-            </Text>;
-         }) : ''}
-
-         <Button
-            type='submit'
-            className='
-                bg-blue text-white
-                  mt-4 
-            '
-         >
-            ENTER
-         </Button>
-
-      </form>
-   </Box>;
+                font-light duration-500
+               `}
+            >
+               {errors.userNameInput?.message}
+            </Text>
+            <Button
+               type="submit"
+               className="
+                mt-4 bg-blue
+                  text-white 
+            "
+            >
+               ENTER
+            </Button>
+         </form>
+      </Box>
+   );
 }
 
 export default SignUp;
