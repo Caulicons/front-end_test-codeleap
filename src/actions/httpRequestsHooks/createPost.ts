@@ -13,23 +13,28 @@ const useCreatePost = () => {
    return async (newPostData: newPost) => {
       const handleNewPost = {
          username,
-         ...newPostData
+         ...newPostData,
       };
 
-      return codeleapHTTP.post('', handleNewPost)
-         .then(res => {
-
+      return codeleapHTTP
+         .post('', handleNewPost)
+         .then((res) => {
             if (res.status === 201) {
                dispatch(addPostInStore(res.data));
-               showNotification({ text: 'Post created successfully!', type: 'success' });
+               showNotification({
+                  text: 'Post created successfully!',
+                  type: 'success',
+               });
                return true;
-            };
+            }
          })
-         .catch(err => {
+         .catch((err) => {
             console.log(err);
-            showNotification({ text: 'Unable to created post. Try again later.', type: 'failed' });
+            showNotification({
+               text: 'Unable to created post. Try again later.',
+               type: 'failed',
+            });
          });
-      ;
    };
 };
 

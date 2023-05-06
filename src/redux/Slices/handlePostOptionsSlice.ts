@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import IPost from '../../interface/Post';
 
 type InitialState = {
-   post: IPost | null,
-   editingPost: boolean,
-   deletingPost: boolean
+   post: IPost | null;
+   editingPost: boolean;
+   deletingPost: boolean;
 };
 
 const initialState: InitialState = {
@@ -13,10 +13,10 @@ const initialState: InitialState = {
       username: '',
       created_datetime: '',
       title: '',
-      content: ''
+      content: '',
    },
    editingPost: false,
-   deletingPost: false
+   deletingPost: false,
 };
 
 const handlePostOptionsSlice = createSlice({
@@ -28,9 +28,10 @@ const handlePostOptionsSlice = createSlice({
       },
       deletePostPopUp(state) {
          state.deletingPost = !state.deletingPost;
-      }
-   }
+      },
+   },
 });
 
-export const {  editPostPopUp,  deletePostPopUp } = handlePostOptionsSlice.actions;
+export const { editPostPopUp, deletePostPopUp } =
+   handlePostOptionsSlice.actions;
 export default handlePostOptionsSlice.reducer;

@@ -7,18 +7,18 @@ import DeletePost from './Post/DeletePost.tsx';
 import useGetPosts from '../../actions/httpRequestsHooks/getPosts.ts';
 
 function Posts() {
-
    const getPostInfo = useGetPosts();
    const isPostSelect = useSelector((state: RootState) => state.postOption);
    const posts = useSelector((state: RootState) => state.postsStorage.posts);
-   const nextPostStore = useSelector((state: RootState) => state.postsStorage.nextPostURL);
+   const nextPostStore = useSelector(
+      (state: RootState) => state.postsStorage.nextPostURL
+   );
 
    useEffect(() => {
-
       if (!nextPostStore) {
          getPostInfo();
          return;
-      };
+      }
 
       const intersectionObserver = new IntersectionObserver((entries) => {
          if (entries.some((entry) => entry.isIntersecting)) {
@@ -34,14 +34,15 @@ function Posts() {
       return () => intersectionObserver.disconnect();
    }, [nextPostStore]);
 
-
-   return <section className='grid gap-6 mt-6'>
-      {posts?.map(postData =>
-         <Post key={postData.id} {...postData} />
-      )}
-      {isPostSelect.editingPost ? <EditPost /> : <></>}
-      {isPostSelect.deletingPost ? <DeletePost /> : <></>}
-   </section>;
+   return (
+      <section className="mt-6 grid gap-6">
+         {posts?.map((postData) => (
+            <Post key={postData.id} {...postData} />
+         ))}
+         {isPostSelect.editingPost ? <EditPost /> : <></>}
+         {isPostSelect.deletingPost ? <DeletePost /> : <></>}
+      </section>
+   );
 }
 
 export default Posts;

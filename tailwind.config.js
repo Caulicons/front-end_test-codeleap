@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-   content: [
-      './index.html',
-      './src/**/*.{js,ts,jsx,tsx}',
-   ],
+   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
    theme: {
       colors: {
          black: '#000000',
@@ -15,11 +12,11 @@ export default {
          placeholder: '#CCCCCC',
          transparent: 'transparent',
          borderColor: '#999999',
-         backgroundColor: '#DDDDDD'
+         backgroundColor: '#DDDDDD',
       },
       borderRadius: {
          small: '8px',
-         default: '16px'
+         default: '16px',
       },
       fontSize: {
          titleFontSize: '22px',
@@ -28,21 +25,21 @@ export default {
          placeholderFontSize: '14px',
       },
       fontFamily: {
-         Roboto: ['Roboto', 'sans-serif']
+         Roboto: ['Roboto', 'sans-serif'],
       },
       extend: {
          maxWidth: {
-            800: '800px'
+            800: '800px',
          },
          padding: {
-            default: '24px'
+            default: '24px',
          },
          margin: {
-            default: '24px'
+            default: '24px',
          },
          screens: {
             md: '800px',
-            pocket: '150px'
+            pocket: '150px',
          },
          colors: {
             black: '#000000',
@@ -58,10 +55,9 @@ export default {
             placeholder: '#CCCCCC',
             transparent: 'transparent',
             borderColor: '#999999',
-            backgroundColor: '#DDDDDD'
+            backgroundColor: '#DDDDDD',
          },
       },
    },
    plugins: [],
 };
-

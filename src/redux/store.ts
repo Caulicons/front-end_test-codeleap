@@ -3,7 +3,7 @@ import {
    notificationReducer,
    postOptionsReducer,
    postsReducer,
-   userReducer
+   userReducer,
 } from './Slices';
 
 const store = configureStore({
@@ -11,8 +11,8 @@ const store = configureStore({
       postOption: postOptionsReducer,
       user: userReducer,
       postsStorage: postsReducer,
-      notification: notificationReducer
-   }
+      notification: notificationReducer,
+   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
